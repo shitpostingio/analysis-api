@@ -1,0 +1,11 @@
+.idea/
+services/main
+*.toml
+services/nsfw/server/nsfw_server
+services/nsfw/server/server
+services/fingerprinting/server/server
+services/gibberish/server/knowledge.json
+services/gibberish/server/server
+analysis-api
+services/services
+analysis-api.exe

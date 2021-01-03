@@ -1,0 +1,51 @@
+version: "3.6"
+services:
+  analysis:
+    image: ghcr.io/shitpostingio/analysis:staging
+    volumes:
+      - "/home/bots/configs/analysis/staging/analysis:/home/analysis/config"
+    env_file: /home/bots/configs/analysis/staging/analysis.env
+    ports:
+      - 34344:9999
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:9999/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - redis
+      - fpserver
+      - nsfwserver
+      - gibberishserver
+  fpserver:
+    image: ghcr.io/shitpostingio/fingerprint:staging
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10000/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    env_file: /home/bots/configs/analysis/staging/fp.env
+  nsfwserver:
+    image: ghcr.io/shitpostingio/nsfw:staging
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10001/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - "/home/bots/configs/analysis/staging/nsfw:/home/nsfw/config"
+    env_file: /home/bots/configs/analysis/staging/nsfw.env
+  gibberishserver:
+    image: ghcr.io/shitpostingio/gibberish:staging
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10002/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    env_file: /home/bots/configs/analysis/staging/gibberish.env
+  redis:
+    image: registry.gitlab.com/shitposting/redis
+  mongo:
+    image: mongo:latest
+    volumes:
+      - "/home/bots/configs/analysis/staging/mongo:/docker-entrypoint-initdb.d"

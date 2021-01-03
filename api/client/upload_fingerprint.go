@@ -3,7 +3,7 @@ package client
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/shitpostingio/analysis-api/services/structs"
+	"github.com/shitpostingio/analysis-commons/structs"
 	"io"
 	"io/ioutil"
 	"log"

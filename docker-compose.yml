@@ -1,0 +1,52 @@
+version: "3.6"
+services:
+  analysis:
+    image: ghcr.io/shitpostingio/analysis
+    volumes:
+      - "./compose/analysis:/home/analysis/config"
+    env_file: compose/analysis.env
+    ports:
+      - 34343:9999
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:9999/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - fpserver
+      - nsfwserver
+      - gibberishserver
+  fpserver:
+    image: ghcr.io/shitpostingio/fingerprint
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10000/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    env_file: compose/fp.env
+  nsfwserver:
+    image: ghcr.io/shitpostingio/nsfw
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10001/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - "./compose/nsfw:/home/nsfw/config"
+    env_file: compose/nsfw.env
+  gibberishserver:
+    image: ghcr.io/shitpostingio/gibberish
+    healthcheck:
+      test:  ["CMD", "curl", "-f", "http://localhost:10002/healthy"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    env_file: compose/gibberish.env
+  redis:
+    build: ./compose/redis/.
+  mongo:
+    image: mongo:latest  
+    volumes:
+      - ./compose/mongo:/docker-entrypoint-initdb.d
