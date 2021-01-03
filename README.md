@@ -51,13 +51,13 @@ gibberishendpoint   = "http://localhost:10002/gibberish"
 testing = <testing-status>
 
 [database]
-  authsource = "admin"
-  collectionname = "tokens"
-  databasename = "fpserver"
+  authsource = "authsource"
+  collectionname = "collectionname"
+  databasename = "databasename"
   hosts = ["localhost:27017"]
-  password = "fpserver"
-  replicasetname = "shitposting"
-  username = "fpserver"
+  password = "password"
+  replicasetname = "replicasetname"
+  username = "username"
 
 [redis]
     Address = "localhost:6379"
