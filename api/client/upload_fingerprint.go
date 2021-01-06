@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/shitpostingio/analysis-commons/structs"
+	log "github.com/sirupsen/logrus"
 	"io"
 	"io/ioutil"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"time"
@@ -49,6 +49,7 @@ func PerformFingerprintRequest(file io.Reader, fileName, endpoint, authorization
 	client := http.Client{Timeout: time.Second * 30}
 	response, err := client.Do(request)
 	if err != nil {
+		log.Debugln("Request failed: ", err)
 		errorString = err.Error()
 		return
 	}
@@ -61,6 +62,7 @@ func PerformFingerprintRequest(file io.Reader, fileName, endpoint, authorization
 	}()
 
 	bodyResult, err := ioutil.ReadAll(response.Body)
+	log.Debugln("Body response: ", string(bodyResult))
 	if err != nil {
 		errorString = err.Error()
 		return
