@@ -10,6 +10,6 @@ require (
 	github.com/shitpostingio/gibberish-microservice v0.0.0-20210103161225-b52de88806ed
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/viper v1.6.2
-	go.mongodb.org/mongo-driver v1.4.4
+	go.mongodb.org/mongo-driver v1.5.1
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 )
